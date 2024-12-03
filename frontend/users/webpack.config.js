@@ -68,6 +68,9 @@ module.exports = (_, argv) => ({
       exposes: {
         './UsersTestControl': './src/components/UsersTestControl.js',
         './Login': './src/components/Login.js',
+        './Register': './src/components/Register.js',
+        './ProtectedRoute': './src/components/ProtectedRoute.js',
+        
 
       },
       shared: {
