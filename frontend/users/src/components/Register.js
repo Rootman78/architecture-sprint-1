@@ -1,12 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import * as auth from "../utils/auth.js"; 
 
 function Register (){
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(null);
+  const [tooltipStatus, setTooltipStatus] = React.useState("");
+
+  const history = useHistory();
 
   function onRegister({ email, password }) {
+    console.log(email, password);
     auth.register(email, password)
       .then((res) => {
         setTooltipStatus("success");
@@ -28,6 +33,7 @@ function Register (){
     onRegister(userData);
   }
   return (
+    <div>
     <div className="auth-form">
       <form className="auth-form__form" onSubmit={handleSubmit}>
         <div className="auth-form__wrapper">
@@ -48,6 +54,8 @@ function Register (){
           <p className="auth-form__text">Уже зарегистрированы? <Link className="auth-form__link" to="/signin">Войти</Link></p>
         </div>
       </form>
+      </div>
+      {/* <InfoTooltip isOpen={isInfoToolTipOpen}  onClose={setIsInfoToolTipOpen} status={tooltipStatus} /> */}
     </div>
   )
 }

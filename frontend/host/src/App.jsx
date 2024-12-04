@@ -29,18 +29,11 @@ const Login = lazy(() => import('users/Login').catch(() => {
  })
  );
 
-/*  const ProtectedRoute = lazy(() => import('users/ProtectedRoute').catch(() => {
-  return { default: () => <div className='error'>Component is not available!</div> };
- })
- );  */
  
 
 
 
- const Card = lazy(() => import('cards/Card').catch(() => {
-  return { default: () => <div className='error'>Component is not available!</div> };
- })
- );
+
 
 function App() {
 
@@ -52,11 +45,11 @@ function App() {
  //В компоненты добавлены новые стейт-переменные: email — в компонент App
  //const [email, setEmail] = useState("");
 
- const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =  useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [cards, setCards] = useState([]);
+
+  
+  
+  
+  
 
  
 
@@ -67,7 +60,7 @@ function App() {
 
  // const history = useHistory();
 
-   // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
+/*    // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
    React.useEffect(() => {
     api.getAppInfo()
       .then(([cardData, userData]) => {
@@ -77,8 +70,7 @@ function App() {
        // console.log('cardData', cardData);
       })
       .catch((err) => console.log(err));
-  }, []); 
-
+  }, []);  */
 /*   // при монтировании App описан эффект, проверяющий наличие токена и его валидности
   React.useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -91,23 +83,24 @@ function App() {
           history.push("/");
         })
         .catch((err) => {
-          localStorage.removeItem("jwt");
+    
+      localStorage.removeItem("jwt");
           console.log(err);
         });
     }
   }, [history]);  */ 
 
-  function handleEditProfileClick() {
+/*   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
-  }
+  } */
 
-  function handleAddPlaceClick() {
+/*   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
-  }
+  } */
 
-  function handleEditAvatarClick() {
+/*   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
-  }
+  } */
 
 /*   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
@@ -117,9 +110,7 @@ function App() {
     setSelectedCard(null);
   } */
 
-  function handleCardClick(card) {
-    setSelectedCard(card);
-  }
+ 
 
   function handleUpdateUser(userUpdate) {
     api.setUserInfo(userUpdate)
@@ -139,7 +130,7 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function handleCardLike(card) {
+/*   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
@@ -148,15 +139,15 @@ function App() {
         );
       })
       .catch((err) => console.log(err));
-  }
+  } */
 
-  function handleCardDelete(card) {
+/*   function handleCardDelete(card) {
     api.removeCard(card._id)
       .then(() => {
         setCards((cards) => cards.filter((c) => c._id !== card._id));
       })
       .catch((err) => console.log(err));
-  }
+  } */
 
   function handleAddPlaceSubmit(newCard) {
     api.addCard(newCard)
@@ -175,20 +166,13 @@ function App() {
      <div className="page__content">
         <Header setIsLoggedIn={setIsLoggedIn}/> 
         <Switch>
-         {/*  <div>aaaaa</div> */}
-{/*            <ProtectedRoute
+  
+           <ProtectedRoute
            exact
            path="/"
            component={Main}
-           cards={cards}
-           onEditProfile={handleEditProfileClick}
-           onAddPlace={handleAddPlaceClick}
-           onEditAvatar={handleEditAvatarClick}
-           onCardClick={handleCardClick}
-           onCardLike={handleCardLike}
-           onCardDelete={handleCardDelete}
            loggedIn={isLoggedIn}
-         />   */}
+         />   
          <Route path="/signup">
            <Register  />
          </Route>

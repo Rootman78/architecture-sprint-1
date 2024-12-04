@@ -13,7 +13,7 @@ function Login ({setIsLoggedIn}) {
 
   const history = useHistory();
 
-  console.log('history',history);
+ // console.log('history',history);
   
 
   function onLogin({ email, password }) {
