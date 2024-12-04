@@ -58,8 +58,10 @@ module.exports = (_, argv) => ({
         },
       },
       { test: /\.svg$/,
-         use: ['@svgr/webpack'],
-      },
+        use: ['@svgr/webpack',
+              'url-loader',
+        ],
+     },
     ],
   },
 
@@ -67,10 +69,10 @@ module.exports = (_, argv) => ({
     new ModuleFederationPlugin({
       name: "host",
       filename: "remoteEntry.js",
-      remotes: {
+       remotes: {
         'users': 'users@http://localhost:8091/remoteEntry.js',
         'cards': 'cards@http://localhost:8092/remoteEntry.js',
-        },
+        }, 
       exposes: {},
       shared: {
         ...deps,

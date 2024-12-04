@@ -19,7 +19,7 @@ function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onC
         </div>
         <button className="profile__add-button" type="button" onClick={onAddPlace}></button>
       </section>
-      <section className="places page__section">
+      {/* <section className="places page__section">
         <ul className="places__list">
           {cards.map((card) => (
             <Card
@@ -31,7 +31,7 @@ function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onC
             />
           ))}
         </ul>
-      </section>
+      </section> */}
     </main>
   );
 }

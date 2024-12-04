@@ -57,6 +57,11 @@ module.exports = (_, argv) => ({
           loader: "babel-loader",
         },
       },
+      { test: /\.svg$/,
+        use: ['@svgr/webpack',
+              'url-loader',
+        ],
+     },
     ],
   },
 
@@ -69,7 +74,7 @@ module.exports = (_, argv) => ({
         './UsersTestControl': './src/components/UsersTestControl.js',
         './Login': './src/components/Login.js',
         './Register': './src/components/Register.js',
-        './ProtectedRoute': './src/components/ProtectedRoute.js',
+       
         
 
       },

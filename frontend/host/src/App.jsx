@@ -1,7 +1,8 @@
 import React, { lazy, useState }  from "react";
-import {  BrowserRouter as Router, useNavigate, Routes, Route} from "react-router-dom";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter, Route, useHistory, Switch } from "react-router-dom";
 import Header from "./components/Header";
+import  ProtectedRoute from "./components/ProtectedRoute";
 import Main from "./components/Main";
 import Footer from "./components/Footer";
 import { CurrentUserContext } from "./contexts/CurrentUserContext";
@@ -15,6 +16,7 @@ import api from "./utils/api";
 
 import * as auth from "./utils/auth.js"; 
 
+
 import "./index.css";
 
 const Login = lazy(() => import('users/Login').catch(() => {
@@ -27,11 +29,11 @@ const Login = lazy(() => import('users/Login').catch(() => {
  })
  );
 
- const ProtectedRoute = lazy(() => import('users/ProtectedRoute').catch(() => {
+/*  const ProtectedRoute = lazy(() => import('users/ProtectedRoute').catch(() => {
   return { default: () => <div className='error'>Component is not available!</div> };
  })
- );
- ProtectedRoute
+ );  */
+ 
 
 
 
@@ -40,17 +42,15 @@ const Login = lazy(() => import('users/Login').catch(() => {
  })
  );
 
+function App() {
 
+  // В корневом компоненте App создана стейт-переменная currentUser. Она используется в качестве значения для провайдера контекста.
+  const [currentUser, setCurrentUser] = useState({});
 
-
-  const App = () => {
-
- // В корневом компоненте App создана стейт-переменная currentUser. Она используется в качестве значения для провайдера контекста.
- const [currentUser, setCurrentUser] = useState({});
-
- const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+ 
  //В компоненты добавлены новые стейт-переменные: email — в компонент App
- const [email, setEmail] = useState("");
+ //const [email, setEmail] = useState("");
 
  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
@@ -60,26 +60,29 @@ const Login = lazy(() => import('users/Login').catch(() => {
 
  
 
-  const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
-  const [tooltipStatus, setTooltipStatus] = useState("");
+  
 
 
 
-   const history = useNavigate();
+
+ // const history = useHistory();
 
    // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
-  React.useEffect(() => {
+   React.useEffect(() => {
     api.getAppInfo()
       .then(([cardData, userData]) => {
         setCurrentUser(userData);
         setCards(cardData);
+       // console.log('userData', userData);
+       // console.log('cardData', cardData);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, []); 
 
-  // при монтировании App описан эффект, проверяющий наличие токена и его валидности
+/*   // при монтировании App описан эффект, проверяющий наличие токена и его валидности
   React.useEffect(() => {
     const token = localStorage.getItem("jwt");
+    console.log('stor', token);
     if (token) {
       auth.checkToken(token)
         .then((res) => {
@@ -92,7 +95,7 @@ const Login = lazy(() => import('users/Login').catch(() => {
           console.log(err);
         });
     }
-  }, [history]);  
+  }, [history]);  */ 
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -106,13 +109,13 @@ const Login = lazy(() => import('users/Login').catch(() => {
     setIsEditAvatarPopupOpen(true);
   }
 
-  function closeAllPopups() {
+/*   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsInfoToolTipOpen(false);
     setSelectedCard(null);
-  }
+  } */
 
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -166,74 +169,76 @@ const Login = lazy(() => import('users/Login').catch(() => {
 
 
 
-  
+  return (
+     // В компонент App внедрён контекст через CurrentUserContext.Provider
+     <CurrentUserContext.Provider value={currentUser}>
+     <div className="page__content">
+        <Header setIsLoggedIn={setIsLoggedIn}/> 
+        <Switch>
+         {/*  <div>aaaaa</div> */}
+{/*            <ProtectedRoute
+           exact
+           path="/"
+           component={Main}
+           cards={cards}
+           onEditProfile={handleEditProfileClick}
+           onAddPlace={handleAddPlaceClick}
+           onEditAvatar={handleEditAvatarClick}
+           onCardClick={handleCardClick}
+           onCardLike={handleCardLike}
+           onCardDelete={handleCardDelete}
+           loggedIn={isLoggedIn}
+         />   */}
+         <Route path="/signup">
+           <Register  />
+         </Route>
+         <Route path="/signin">
+           <Login setIsLoggedIn = {setIsLoggedIn} />
+         </Route>
+       </Switch> 
+       <Footer />
+        {/*  <EditProfilePopup
+         isOpen={isEditProfilePopupOpen}
+         onUpdateUser={handleUpdateUser}
+         onClose={closeAllPopups}
+       />
+       <AddPlacePopup
+         isOpen={isAddPlacePopupOpen}
+         onAddPlace={handleAddPlaceSubmit}
+         onClose={closeAllPopups}
+       />
+       <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
+       <EditAvatarPopup
+         isOpen={isEditAvatarPopupOpen}
+         onUpdateAvatar={handleUpdateAvatar}
+         onClose={closeAllPopups}
+       />
+       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+       <InfoTooltip
+         isOpen={isInfoToolTipOpen}
+         onClose={closeAllPopups}
+         status={tooltipStatus}
+       />   */}
+     </div>
+   </CurrentUserContext.Provider>
 
+/*   <div className="container">
+    <div>Name: host</div>
+    <div>Framework: react</div>
+    <div>Language: JavaScript</div>
+    <div>CSS: Empty CSS</div>
+  </div> */
+);
+} export default App
 
+const rootElement = document.getElementById("app")
+if (!rootElement) throw new Error("Failed to find the root element")
 
-    return (
-  
+const root = ReactDOM.createRoot(rootElement)
 
-    // В компонент App внедрён контекст через CurrentUserContext.Provider
-    <CurrentUserContext.Provider value={currentUser}>
-      <div className="page__content">
-        <Header email={email}  />
-         <Routes>
-           <ProtectedRoute
-            exact
-            path="/"
-            component={Main}
-            cards={cards}
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
-            onCardClick={handleCardClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-            loggedIn={isLoggedIn}
-          /> 
-          <Route path="/signup" element={<Register />} />
-          <Route path="/signin" element={<Login/>} />
-       
-        </Routes> 
-        <Footer />
-      {/*    <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onUpdateUser={handleUpdateUser}
-          onClose={closeAllPopups}
-        />
-        <AddPlacePopup
-          isOpen={isAddPlacePopupOpen}
-          onAddPlace={handleAddPlaceSubmit}
-          onClose={closeAllPopups}
-        />
-        <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onUpdateAvatar={handleUpdateAvatar}
-          onClose={closeAllPopups}
-        />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        <InfoTooltip
-          isOpen={isInfoToolTipOpen}
-          onClose={closeAllPopups}
-          status={tooltipStatus}
-        />  */}
-      </div>
-    </CurrentUserContext.Provider>
-  );
-  }
-
-  const rootElement = document.getElementById("app")
-  if (!rootElement) throw new Error("Failed to find the root element")
-  
-  const root = ReactDOM.createRoot(rootElement)
-  
-  root.render(  
-  
-    <Router>
-          <App />
-    </Router>
-   )
-
-
-
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+</BrowserRouter>
+</React.StrictMode>)

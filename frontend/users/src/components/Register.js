@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import * as auth from "../utils/auth.js"; 
 
 function Register (){
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
   function onRegister({ email, password }) {
-    auth
-      .register(email, password)
+    auth.register(email, password)
       .then((res) => {
         setTooltipStatus("success");
         setIsInfoToolTipOpen(true);
