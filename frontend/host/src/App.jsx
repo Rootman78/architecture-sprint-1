@@ -17,7 +17,7 @@ import api from "./utils/api";
 import * as auth from "./utils/auth.js"; 
 
 
-import "./index.css";
+//import "./index.css";
 
 const Login = lazy(() => import('users/Login').catch(() => {
   return { default: () => <div className='error'>Component is not available!</div> };
@@ -38,7 +38,7 @@ const Login = lazy(() => import('users/Login').catch(() => {
 function App() {
 
   // В корневом компоненте App создана стейт-переменная currentUser. Она используется в качестве значения для провайдера контекста.
-  const [currentUser, setCurrentUser] = useState({});
+
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
  
@@ -70,7 +70,7 @@ function App() {
        // console.log('cardData', cardData);
       })
       .catch((err) => console.log(err));
-  }, []);  */
+  }, []);  
 /*   // при монтировании App описан эффект, проверяющий наличие токена и его валидности
   React.useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -112,23 +112,23 @@ function App() {
 
  
 
-  function handleUpdateUser(userUpdate) {
+/*   function handleUpdateUser(userUpdate) {
     api.setUserInfo(userUpdate)
       .then((newUserData) => {
         setCurrentUser(newUserData);
         closeAllPopups();
       })
       .catch((err) => console.log(err));
-  }
+  } */
 
-  function handleUpdateAvatar(avatarUpdate) {
+/*   function handleUpdateAvatar(avatarUpdate) {
     api.setUserAvatar(avatarUpdate)
       .then((newUserData) => {
         setCurrentUser(newUserData);
         closeAllPopups();
       })
       .catch((err) => console.log(err));
-  }
+  } */
 
 /*   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -149,14 +149,14 @@ function App() {
       .catch((err) => console.log(err));
   } */
 
-  function handleAddPlaceSubmit(newCard) {
+/*   function handleAddPlaceSubmit(newCard) {
     api.addCard(newCard)
       .then((newCardFull) => {
         setCards([newCardFull, ...cards]);
         closeAllPopups();
       })
       .catch((err) => console.log(err));
-  }
+  } */
 
 
 
@@ -206,12 +206,7 @@ function App() {
      </div>
    </CurrentUserContext.Provider>
 
-/*   <div className="container">
-    <div>Name: host</div>
-    <div>Framework: react</div>
-    <div>Language: JavaScript</div>
-    <div>CSS: Empty CSS</div>
-  </div> */
+
 );
 } export default App
 

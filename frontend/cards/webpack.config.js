@@ -57,6 +57,11 @@ module.exports = (_, argv) => ({
           loader: "babel-loader",
         },
       },
+      { test: /\.svg$/,
+        use: ['@svgr/webpack',
+              'url-loader',
+        ],
+     },
     ],
   },
 
@@ -68,6 +73,8 @@ module.exports = (_, argv) => ({
       exposes: {
         './CardsTestControl': './src/components/CardsTestControl.js',
         './CardsInfo': './src/components/CardsInfo.js',
+        './AddPlacePopup': './src/components/AddPlacePopup.js',
+        
       },
       shared: {
         ...deps,

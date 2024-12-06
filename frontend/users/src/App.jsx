@@ -1,8 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 
 
-import "./index.css";
+//import "./index.css";
 
 function App() {
   return(
@@ -14,10 +14,11 @@ function App() {
   </div>
 );}
 export default App
+ 
  const rootElement = document.getElementById("app")
 if (!rootElement) throw new Error("Failed to find the root element")
 
-const root = ReactDOM.createRoot(rootElement)
+const root = ReactDOM.createRoot(rootElement) 
 
-root.render(<App />)
+root.render(<App />) 
  

@@ -9,6 +9,7 @@ function Header ({setIsLoggedIn}) {
 
   const  currentUser  = useContext(CurrentUserContext)
   //console.log('currentUser',currentUser);
+  const [email, setEmail] = React.useState('');
 
   const history = useHistory();
   
@@ -24,6 +25,22 @@ function Header ({setIsLoggedIn}) {
     onSignOut(history);
   }
 
+  React.useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      auth.checkToken(token)
+        .then((res) => {
+          setEmail(res.data.email);
+                   
+        })
+        .catch((err) => {
+    
+      localStorage.removeItem("jwt");
+          console.log(err);
+        });
+    }
+  }, []);
+
   
  
   return (
@@ -31,7 +48,7 @@ function Header ({setIsLoggedIn}) {
       <img   src={logoPath}   alt="Логотип проекта Mesto" className="logo header__logo" />
       <Route exact path="/">
         <div className="header__wrapper">
-          <p className="header__user">{/* { email } */}</p>
+          <p className="header__user">{ email }</p>
           <button className="header__logout" onClick={handleSignOut}>Выйти</button>
         </div>
       </Route>

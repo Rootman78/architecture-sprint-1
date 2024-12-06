@@ -1,9 +1,11 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
+import api from "../utils/api";
 
-function AddPlacePopup({ isOpen, onAddPlace, onClose }) {
+function AddPlacePopup({ isOpen, cards, setCards, onClose }) {
   const [name, setName] = React.useState('');
   const [link, setLink] = React.useState('');
+  
 
   function handleNameChange(e) {
     setName(e.target.value);
@@ -13,10 +15,19 @@ function AddPlacePopup({ isOpen, onAddPlace, onClose }) {
     setLink(e.target.value);
   }
 
+  function handleAddPlaceSubmit(newCard) {
+    api.addCard(newCard)
+      .then((newCardFull) => {
+        setCards([newCardFull, ...cards]);
+        onClose(false);
+      })
+      .catch((err) => console.log(err));
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
 
-    onAddPlace({
+    handleAddPlaceSubmit({
       name,
       link
     });

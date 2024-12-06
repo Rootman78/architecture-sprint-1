@@ -2,7 +2,7 @@ import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
+function EditProfilePopup({ currentUserData, isOpen, onUpdateUser, onClose }) {
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
 
@@ -14,14 +14,14 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
     setDescription(e.target.value);
   }
 
-  const currentUser = React.useContext(CurrentUserContext);
+//   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
-    if (currentUser) {
-      setName(currentUser.name);
-      setDescription(currentUser.about);
+    if (currentUserData) {
+      setName(currentUserData.name);
+      setDescription(currentUserData.about);
     }
-  }, [currentUser]);
+  }, [currentUserData]); 
 
   function handleSubmit(e) {
     e.preventDefault();

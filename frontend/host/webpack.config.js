@@ -62,6 +62,7 @@ module.exports = (_, argv) => ({
               'url-loader',
         ],
      },
+     
     ],
   },
 

@@ -1,16 +1,17 @@
 import React, { lazy } from 'react';
 import Card from './Card';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-
+import api from "../utils/api";
 
 function CardsInfo() {
-  const currentUser = React.useContext(CurrentUserContext);
+ // const currentUser = React.useContext(CurrentUserContext);
+  const [currentUser, setCurrentUser] = React.useState({});
+  const [cards, setCards] = React.useState([]);
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
-  const [cards, setCards] = useState([]);
-  const [selectedCard, setSelectedCard] = useState(null);
   
 
-  const imageStyle = { backgroundImage: `url(${currentUser.avatar})` };
+ 
 
   function handleCardClick(card) {
     setSelectedCard(card);
@@ -41,21 +42,34 @@ function CardsInfo() {
         setCards(cardData);
         
        // console.log('userData', userData);
+        console.log('cardData', cardData);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  React.useEffect(() => {
+    api.getAppInfo()
+      .then(([cardData, userData]) => {
+        setCurrentUser(userData);
+        setCards(cardData);
+       // console.log('userData', userData);
        // console.log('cardData', cardData);
       })
       .catch((err) => console.log(err));
   }, []);
 
-
+console.log('cards', cards);
   return (
     
 
        <section className="places page__section">
         <ul className="places__list">
-          {cards.map((card) => (
+          {cards.length>0 &&
+           cards.map((card) => (
             <Card
               key={card._id}
               card={card}
+              currentUser={currentUser}
               onCardClick={handleCardClick}
               onCardLike={handleCardLike}
               onCardDelete={handleCardDelete}
