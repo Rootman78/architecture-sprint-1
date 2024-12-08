@@ -21,7 +21,7 @@ function Login ({setIsLoggedIn}) {
       .then((res) => {
         console.log('res', res);
         setIsLoggedIn(true);
-        setEmail(email);
+        //setEmail(email);
        history.push("/");
       })
       .catch((err) => {
@@ -43,7 +43,7 @@ function Login ({setIsLoggedIn}) {
     onLogin(userData);
   }
 
-   // при монтировании App описан эффект, проверяющий наличие токена и его валидности
+/*    // при монтировании App описан эффект, проверяющий наличие токена и его валидности
    React.useEffect(() => {
     const token = localStorage.getItem("jwt");
     console.log('stor', token);
@@ -51,7 +51,7 @@ function Login ({setIsLoggedIn}) {
       auth.checkToken(token)
         .then((res) => {
           setEmail(res.data.email);
-          setIsLoggedIn(true);
+          //setIsLoggedIn(true);
           history.push("/");
         })
         .catch((err) => {
@@ -59,7 +59,7 @@ function Login ({setIsLoggedIn}) {
           console.log(err);
         });
     }
-  }, [history]);
+  }, []); */
 
   //setIsInfoToolTipOpen(true)
 

@@ -1,13 +1,21 @@
 import React, { lazy } from 'react';
 import Card from './Card';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import ImagePopup from './ImagePopup';
+//import { CurrentUserContext } from '../../../host/src/contexts/CurrentUserContext';
 import api from "../utils/api";
 
-function CardsInfo() {
- // const currentUser = React.useContext(CurrentUserContext);
-  const [currentUser, setCurrentUser] = React.useState({});
-  const [cards, setCards] = React.useState([]);
+const CurrentUserContext = lazy(() => import('host/CurrentUserContext').catch(() => {
+  return { default: () => <div className='error'>Component is not available!</div> };
+ })
+ );
+
+function CardsInfo({currentUser, setCurrentUser, cards, setCards}) {
+  //console.log('CurrentUserContext', CurrentUserContext)
+ //const {currentUser, setCurrentUser, cards, setCards} = React.useContext(CurrentUserContext);
+ //console.log('currentUserCa', currentUser)
   const [selectedCard, setSelectedCard] = React.useState(null);
+  //const [isCardAdd, setIsCardAdd] = React.useState(false);
+
 
   
 
@@ -36,7 +44,7 @@ function CardsInfo() {
       .catch((err) => console.log(err));
   }
 
-  React.useEffect(() => {
+/*   React.useEffect(() => {
     api.getCardList()
       .then((cardData) => {
         setCards(cardData);
@@ -45,7 +53,7 @@ function CardsInfo() {
         console.log('cardData', cardData);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, []); */
 
   React.useEffect(() => {
     api.getAppInfo()
@@ -56,12 +64,12 @@ function CardsInfo() {
        // console.log('cardData', cardData);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [cards.length]);
 
-console.log('cards', cards);
+console.log('cards', cards.length)
   return (
-    
-
+  <div>  
+  {/* <CardsContext.Provider value={isCardAdd}> */}
        <section className="places page__section">
         <ul className="places__list">
           {cards.length>0 &&
@@ -77,7 +85,9 @@ console.log('cards', cards);
           ))}
         </ul>
       </section> 
-    
+      <ImagePopup card={selectedCard} onClose={setSelectedCard} /> 
+      {/* </CardsContext.Provider> */}
+         </div> 
   );
 }
 

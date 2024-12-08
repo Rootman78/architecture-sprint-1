@@ -1,4 +1,4 @@
-import React, { lazy, useState }  from "react";
+import React, { lazy, Suspense }  from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, useHistory, Switch } from "react-router-dom";
 import Header from "./components/Header";
@@ -39,8 +39,9 @@ function App() {
 
   // В корневом компоненте App создана стейт-переменная currentUser. Она используется в качестве значения для провайдера контекста.
 
-
+  const [currentUser, setCurrentUser] = React.useState({});
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [cards, setCards] = React.useState([]);
  
  //В компоненты добавлены новые стейт-переменные: email — в компонент App
  //const [email, setEmail] = useState("");
@@ -58,10 +59,10 @@ function App() {
 
 
 
- // const history = useHistory();
+  const history = useHistory();
 
-/*    // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
-   React.useEffect(() => {
+     // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
+    React.useEffect(() => {
     api.getAppInfo()
       .then(([cardData, userData]) => {
         setCurrentUser(userData);
@@ -70,15 +71,16 @@ function App() {
        // console.log('cardData', cardData);
       })
       .catch((err) => console.log(err));
-  }, []);  
-/*   // при монтировании App описан эффект, проверяющий наличие токена и его валидности
+  }, []);   
+
+   // при монтировании App описан эффект, проверяющий наличие токена и его валидности
   React.useEffect(() => {
     const token = localStorage.getItem("jwt");
     console.log('stor', token);
     if (token) {
       auth.checkToken(token)
         .then((res) => {
-          setEmail(res.data.email);
+          //setEmail(res.data.email);
           setIsLoggedIn(true);
           history.push("/");
         })
@@ -88,7 +90,7 @@ function App() {
           console.log(err);
         });
     }
-  }, [history]);  */ 
+  }, [history]);   
 
 /*   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -159,26 +161,27 @@ function App() {
   } */
 
 
-
+console.log('isLoggedIn',isLoggedIn);
   return (
      // В компонент App внедрён контекст через CurrentUserContext.Provider
-     <CurrentUserContext.Provider value={currentUser}>
+     <CurrentUserContext.Provider value={{currentUser, setCurrentUser, cards, setCards}}>
      <div className="page__content">
-        <Header setIsLoggedIn={setIsLoggedIn}/> 
+        <Header setIsLoggedIn={setIsLoggedIn} /> 
         <Switch>
-  
-           <ProtectedRoute
-           exact
-           path="/"
-           component={Main}
-           loggedIn={isLoggedIn}
-         />   
-         <Route path="/signup">
-           <Register  />
-         </Route>
-         <Route path="/signin">
-           <Login setIsLoggedIn = {setIsLoggedIn} />
-         </Route>
+          <Suspense fallback={<div>Loading...</div>}>
+              <ProtectedRoute
+              exact
+              path="/"
+              component={Main}
+              loggedIn={isLoggedIn}
+            />   
+                <Route path="/signup">
+                  <Register  />
+                </Route>
+                <Route path="/signin">
+                  <Login setIsLoggedIn = {setIsLoggedIn}  />
+                </Route>
+          </Suspense>
        </Switch> 
        <Footer />
         {/*  <EditProfilePopup

@@ -1,7 +1,7 @@
 import React, { lazy } from 'react';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import { CurrentUserContext } from '../../../host/src/contexts/CurrentUserContext';
 import api from "../utils/api";
 
 //import "../index.css";
@@ -12,16 +12,17 @@ const AddPlacePopup = lazy(() => import('cards/AddPlacePopup').catch(() => {
  );
 
 
-function UserInfo({   onAddPlace   }) {
-  const currentUser = React.useContext(CurrentUserContext);
+function UserInfo({currentUser, setCurrentUser, cards, setCards}) {
+  //const currentUser = React.useContext(CurrentUserContext);
+  //console.log('currentUserU', currentUser);
 
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =  React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [currentUserData, setCurrentUserData] = React.useState({});
-  const [cards, setCards] = React.useState([]);
+  //const [currentUserData, setCurrentUserData] = React.useState({});
+ // const [cards, setCards] = React.useState([]);
 
-  const imageStyle = { backgroundImage: `url(${currentUserData.avatar})` };
+  const imageStyle = { backgroundImage: `url(${currentUser.avatar})` };
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -38,7 +39,7 @@ function UserInfo({   onAddPlace   }) {
   function handleUpdateAvatar(avatarUpdate) {
     api.setUserAvatar(avatarUpdate)
       .then((newUserData) => {
-        setCurrentUserData(newUserData);
+        setCurrentUser(newUserData);
         setIsEditAvatarPopupOpen(false);
       })
       .catch((err) => console.log(err));
@@ -46,7 +47,7 @@ function UserInfo({   onAddPlace   }) {
   function handleUpdateUser(userUpdate) {
     api.setUserInfo(userUpdate)
       .then((newUserData) => {
-        setCurrentUserData(newUserData);
+        setCurrentUser(newUserData);
         setIsEditProfilePopupOpen(false);
       })
       .catch((err) => console.log(err));
@@ -68,7 +69,7 @@ function UserInfo({   onAddPlace   }) {
   React.useEffect(() => {
     api.getAppInfo()
       .then(([cardData, userData]) => {
-        setCurrentUserData(userData);
+        setCurrentUser(userData);
         setCards(cardData);
        // console.log('userData', userData);
        // console.log('cardData', cardData);
@@ -82,9 +83,9 @@ function UserInfo({   onAddPlace   }) {
       <section className="profile page__section">
         <div className="profile__image" onClick={handleEditAvatarClick} style={imageStyle}></div>
         <div className="profile__info">
-          <h1 className="profile__title">{currentUserData.name}</h1>
+          <h1 className="profile__title">{currentUser.name}</h1>
           <button className="profile__edit-button" type="button" onClick={handleEditProfileClick}></button>
-          <p className="profile__description">{currentUserData.about}</p>
+          <p className="profile__description">{currentUser.about}</p>
         </div>
         <button className="profile__add-button" type="button"  onClick={handleAddPlaceClick}></button>
       </section>
@@ -94,7 +95,7 @@ function UserInfo({   onAddPlace   }) {
              onClose={setIsEditAvatarPopupOpen}
            />
       <EditProfilePopup
-         currentUserData={currentUserData}
+         currentUser={currentUser}
          isOpen={isEditProfilePopupOpen}
          onUpdateUser={handleUpdateUser}
          onClose={setIsEditProfilePopupOpen}

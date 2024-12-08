@@ -3,7 +3,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function Card({ card, currentUser, onCardClick, onCardLike, onCardDelete }) {
 
-  console.log('card', card);
+ // console.log('card', card);
   const cardStyle = { backgroundImage: `url(${card.link})` };
 
   function handleClick() {

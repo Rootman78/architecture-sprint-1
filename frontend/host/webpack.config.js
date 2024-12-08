@@ -74,7 +74,10 @@ module.exports = (_, argv) => ({
         'users': 'users@http://localhost:8091/remoteEntry.js',
         'cards': 'cards@http://localhost:8092/remoteEntry.js',
         }, 
-      exposes: {},
+      exposes: {
+        './CurrentUserContext': './src/contexts/CurrentUserContext.js',
+        
+      },
       shared: {
         ...deps,
         react: {

@@ -16,12 +16,16 @@ const UserInfo = lazy(() => import('users/UserInfo').catch(() => {
 
 
 function Main() {
+
+  const  {currentUser, setCurrentUser, cards, setCards}  = React.useContext(CurrentUserContext)
+console.log('CurrentUserContextH', CurrentUserContext)
+console.log('currentUserHe',currentUser)
  
 
   return (
      <main className="content">
-      <UserInfo/> 
-     <CardsInfo/> 
+      <UserInfo currentUser={currentUser} setCurrentUser={setCurrentUser} cards={cards} setCards={setCards}/> 
+     <CardsInfo currentUser={currentUser} setCurrentUser={setCurrentUser} cards={cards} setCards={setCards}/> 
     </main>
   );
 }

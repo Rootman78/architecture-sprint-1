@@ -7,8 +7,8 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 // В корневом компоненте App описаны обработчики: onRegister, onLogin и onSignOut. Эти обработчики переданы в соответствующие компоненты: Register.js, Login.js, Header.js
 function Header ({setIsLoggedIn}) {
 
-  const  currentUser  = useContext(CurrentUserContext)
-  //console.log('currentUser',currentUser);
+  
+
   const [email, setEmail] = React.useState('');
 
   const history = useHistory();
