@@ -1,47 +1,26 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {  Route, Link, useHistory} from 'react-router-dom';
 import logoPath from '../images/logo.svg';
-import * as auth from "../utils/auth.js"; 
-import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
-// В корневом компоненте App описаны обработчики: onRegister, onLogin и onSignOut. Эти обработчики переданы в соответствующие компоненты: Register.js, Login.js, Header.js
-function Header ({setIsLoggedIn}) {
 
-  
+function Header ({setIsLoggedIn, email, setEmail}) {
 
-  const [email, setEmail] = React.useState('');
 
   const history = useHistory();
   
 
-  function onSignOut(history) {
+  function onSignOut() {
     // при вызове обработчика onSignOut происходит удаление jwt
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
+    setEmail('')
     // После успешного вызова обработчика onSignOut происходит редирект на /signin
     history.push("/signin");
   }
   function handleSignOut(){
-    onSignOut(history);
+    onSignOut();
   }
-
-  React.useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      auth.checkToken(token)
-        .then((res) => {
-          setEmail(res.data.email);
-                   
-        })
-        .catch((err) => {
-    
-      localStorage.removeItem("jwt");
-          console.log(err);
-        });
-    }
-  }, []);
-
-  
+ 
  
   return (
     <header className="header page__section">

@@ -70,10 +70,9 @@ module.exports = (_, argv) => ({
       name: "cards",
       filename: "remoteEntry.js",
       remotes: {
-        'host': 'host@http://localhost:8090/remoteEntry.js',
+
       },
       exposes: {
-        './CardsTestControl': './src/components/CardsTestControl.js',
         './CardsInfo': './src/components/CardsInfo.js',
         './AddPlacePopup': './src/components/AddPlacePopup.js',
         

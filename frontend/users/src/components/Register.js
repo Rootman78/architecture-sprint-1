@@ -11,7 +11,7 @@ function Register (){
   const history = useHistory();
 
   function onRegister({ email, password }) {
-    console.log(email, password);
+
     auth.register(email, password)
       .then((res) => {
         setTooltipStatus("success");
@@ -55,7 +55,6 @@ function Register (){
         </div>
       </form>
       </div>
-      {/* <InfoTooltip isOpen={isInfoToolTipOpen}  onClose={setIsInfoToolTipOpen} status={tooltipStatus} /> */}
     </div>
   )
 }

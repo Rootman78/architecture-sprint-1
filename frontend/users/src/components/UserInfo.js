@@ -1,10 +1,9 @@
 import React, { lazy } from 'react';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
-import { CurrentUserContext } from '../../../host/src/contexts/CurrentUserContext';
 import api from "../utils/api";
 
-//import "../index.css";
+
 
 const AddPlacePopup = lazy(() => import('cards/AddPlacePopup').catch(() => {
   return { default: () => <div className='error'>Component is not available!</div> };
@@ -13,14 +12,11 @@ const AddPlacePopup = lazy(() => import('cards/AddPlacePopup').catch(() => {
 
 
 function UserInfo({currentUser, setCurrentUser, cards, setCards}) {
-  //const currentUser = React.useContext(CurrentUserContext);
-  //console.log('currentUserU', currentUser);
 
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =  React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  //const [currentUserData, setCurrentUserData] = React.useState({});
- // const [cards, setCards] = React.useState([]);
+ 
 
   const imageStyle = { backgroundImage: `url(${currentUser.avatar})` };
   function handleEditAvatarClick() {
@@ -54,18 +50,6 @@ function UserInfo({currentUser, setCurrentUser, cards, setCards}) {
   }
 
 
-
-/*   React.useEffect(() => {
-    api.getUserInfo()
-      .then((userData) => {
-        setCurrentUserData(userData);
-        
-       console.log('userData', userData);
-       // console.log('cardData', cardData);
-      })
-      .catch((err) => console.log(err));
-  }, []); */
-
   React.useEffect(() => {
     api.getAppInfo()
       .then(([cardData, userData]) => {
@@ -77,7 +61,7 @@ function UserInfo({currentUser, setCurrentUser, cards, setCards}) {
       .catch((err) => console.log(err));
   }, []);
 
-//console.log('currentUserData', currentUserData);
+
   return (
     <div>
       <section className="profile page__section">

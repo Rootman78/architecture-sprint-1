@@ -73,7 +73,6 @@ module.exports = (_, argv) => ({
         'cards': 'cards@http://localhost:8092/remoteEntry.js',
       },
       exposes: {
-        './UsersTestControl': './src/components/UsersTestControl.js',
         './Login': './src/components/Login.js',
         './Register': './src/components/Register.js',
         './UserInfo': './src/components/UserInfo.js',

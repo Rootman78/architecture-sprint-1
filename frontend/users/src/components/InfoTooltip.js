@@ -6,7 +6,7 @@ function InfoTooltip({ isOpen,   onClose,   status }) {
   const icon = status === 'success' ? SuccessIcon : ErrorIcon
   const text = status === 'success' ? "Вы успешно зарегистрировались" : 
      "Что-то пошло не так! Попробуйте ещё раз."
-     console.log('isOpen', isOpen) //isOpen
+    
   return (
     <div className={`popup ${isOpen && 'popup_is-opened'}`}>
       <div className="popup__content">

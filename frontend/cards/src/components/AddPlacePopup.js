@@ -1,15 +1,14 @@
 import React, { useContext } from 'react';
 import PopupWithForm from './PopupWithForm';
 import api from "../utils/api";
-//import { CardsContext } from '../contexts/CurrentUserContext';
+
 
 function AddPlacePopup({ isOpen, cards, setCards, onClose }) {
-  //const isCardAdd = React.useContext(CardsContext)
+  
   const [name, setName] = React.useState('');
   const [link, setLink] = React.useState('');
 
-  //console.log('isCardAdd', isCardAdd)
-  
+   
 
   function handleNameChange(e) {
     setName(e.target.value);

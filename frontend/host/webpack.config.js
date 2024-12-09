@@ -7,9 +7,17 @@ const deps = require("./package.json").dependencies;
 
 const printCompilationMessage = require('./compilation.config.js');
 
+/*   module.exports = {
+  // ...
+ experiments: {
+   asset: true
+ }
+};  */ 
+
 module.exports = (_, argv) => ({
   output: {
     publicPath: "http://localhost:8090/",
+
   },
 
   resolve: {
@@ -58,9 +66,12 @@ module.exports = (_, argv) => ({
         },
       },
       { test: /\.svg$/,
-        use: ['@svgr/webpack',
+/*          use: [
+              '@svgr/webpack',
               'url-loader',
-        ],
+        ], */  
+         type: 'asset',
+        use: 'svgo-loader' 
      },
      
     ],
@@ -75,8 +86,7 @@ module.exports = (_, argv) => ({
         'cards': 'cards@http://localhost:8092/remoteEntry.js',
         }, 
       exposes: {
-        './CurrentUserContext': './src/contexts/CurrentUserContext.js',
-        
+               
       },
       shared: {
         ...deps,
@@ -92,6 +102,7 @@ module.exports = (_, argv) => ({
     }),
     new HtmlWebPackPlugin({
       template: "./src/index.html",
+      favicon:  "./src/logo.svg",
     }),
     new Dotenv()
   ],

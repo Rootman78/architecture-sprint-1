@@ -13,57 +13,31 @@ function Login ({setIsLoggedIn}) {
 
   const history = useHistory();
 
- // console.log('history',history);
-  
 
   function onLogin({ email, password }) {
     auth.login(email, password)
       .then((res) => {
-        console.log('res', res);
         setIsLoggedIn(true);
-        //setEmail(email);
-       history.push("/");
+      history.push("/");
       })
       .catch((err) => {
-        console.log('err',err);
+
         setTooltipStatus("fail");
         setIsInfoToolTipOpen(true);
       });
   }
 
 
-
   function handleSubmit(e){
-
     e.preventDefault();
     const userData = {
       email,
       password
     }
     onLogin(userData);
+
   }
 
-/*    // при монтировании App описан эффект, проверяющий наличие токена и его валидности
-   React.useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    console.log('stor', token);
-    if (token) {
-      auth.checkToken(token)
-        .then((res) => {
-          setEmail(res.data.email);
-          //setIsLoggedIn(true);
-          history.push("/");
-        })
-        .catch((err) => {
-          localStorage.removeItem("jwt");
-          console.log(err);
-        });
-    }
-  }, []); */
-
-  //setIsInfoToolTipOpen(true)
-
-  console.log('isInfoToolTipOpen', isInfoToolTipOpen, tooltipStatus)
 
   return (
     <div>
